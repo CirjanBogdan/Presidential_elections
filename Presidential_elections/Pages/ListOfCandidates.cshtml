@@ -1,0 +1,62 @@
+﻿@page 
+@using Microsoft.Identity;
+@using Presidential_elections.Models;
+@inject UserManager<ApplicationUser> UserManager
+@inject SignInManager<ApplicationUser> SignInManager
+@model Presidential_elections.Pages.ListOfCandidatesModel
+
+
+<div class="text-center">
+    <h1>LIST OF CANDIDATES</h1>
+    <p>&nbsp;</p>
+</div>
+
+<div class="text-center">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">Profile Page</th>
+                    @if (Model.SignedUser.Voted == false)
+                    {
+                        <th scope="col">Vote</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.UserList != null)
+                {
+                    @foreach (var candidate in Model.UserList)
+                    {
+                        if (candidate.Candidated == true)
+                        {
+                            <tr>
+                                <th>@(Model.AutoIncrement++)</th>
+                                <th>@candidate.FirstName</th>
+                                <th>@candidate.LastName</th>
+                                <th><a href="/CandidateProfilePage/@candidate.Id">Visit profile page</a></th>
+                                @if (Model.SignedUser.Voted == false)
+                                {
+                                    <th>
+                                        <form method="post" asp-page-handler="Vote" asp-route-id="@candidate.Id">
+                                            <button type="submit" class="btn btn-sm btn-primary">Vote</button>
+                                        </form>
+                                    </th>
+                                }
+                            </tr>
+                        }
+                    }
+                }
+            </tbody>
+        </table>
+    } else
+    {
+        <h3>
+            You must be signed in to view this page.
+        </h3>
+    }
+</div>

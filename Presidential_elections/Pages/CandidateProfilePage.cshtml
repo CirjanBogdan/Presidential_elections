@@ -1,0 +1,40 @@
+﻿@page "{id}"
+@model CandidateProfilePageModel
+
+<div class="row">
+    <div class="col-md-6">
+
+        <h2>Profile page of @Model.CandidateProfile.FirstName @Model.CandidateProfile.LastName</h2>
+        <p>&nbsp;</p>
+        <div class="form-floating mb-3">
+            <input asp-for="CandidateProfile.FirstName" class="form-control" area-required="true" disabled />
+            <label asp-for="CandidateProfile.FirstName" class="form-label"></label>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input asp-for="CandidateProfile.LastName" class="form-control" disabled />
+            <label asp-for="CandidateProfile.LastName" class="form-label"></label>
+        </div>
+
+        <div class="form-floating mb-3">
+            <textarea asp-for="CandidateProfile.Description" class="form-control" style="height:150px;" disabled></textarea>
+            <label asp-for="CandidateProfile.Description" class="form-label"></label>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input asp-for="CandidateProfile.Email" class="form-control" placeholder="Please choose your username." disabled />
+            <label asp-for="CandidateProfile.Email" class="form-label"></label>
+        </div>
+
+       @* <div class="form-floating mb-3">
+            <input asp-for="CandidateProfile.PhoneNumber" class="form-control" disabled />
+            <label asp-for="CandidateProfile.PhoneNumber" class="form-label"></label>
+            <span asp-validation-for="CandidateProfile.PhoneNumber" class="text-danger"></span>
+        </div>*@
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+

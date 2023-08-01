@@ -1,0 +1,62 @@
+﻿@page
+@using Microsoft.AspNetCore.Identity
+@using Presidential_elections.Models;
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@model IndexModel
+
+<div class="text-center">
+    <h1>TOP 10 CANDIDATES</h1>
+    <p>&nbsp;</p>
+</div>
+
+<div class="text-center">
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">Number of Votes</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var candidate in Model.ListOfCandidates)
+            {
+                <tr>
+                    @if (Model.AutoIncrement <= 3)
+                    {
+                        <th style="color:orangered">@(Model.AutoIncrement++)</th>
+                        <th style="color:orangered">@candidate.FirstName</th>
+                        <th style="color:orangered">@candidate.LastName</th>
+                        <th style="color:orangered">@candidate.NumberOfVotes</th>
+                    } else
+                    {
+                        <th>@(Model.AutoIncrement++)</th>
+                        <th>@candidate.FirstName</th>
+                        <th>@candidate.LastName</th>
+                        <th>@candidate.NumberOfVotes</th>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @{
+        if (SignInManager.IsSignedIn(User))
+        {
+            var signedUser = await UserManager.GetUserAsync(User);
+            if (signedUser.Candidated == false)
+            {
+                <div>
+                    <form method="post" asp-page-handler="Candidate">
+                        <button type="submit" class="w-100 btn btn-lg btn-primary">Candidate</button>
+                    </form>
+                </div>
+            }
+        } else
+        {
+            <h6 style="color:Red">If you want to candidate, you must be registered and signed in.</h6>
+        }
+    }
+</div>
